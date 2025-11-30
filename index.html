@@ -28,14 +28,12 @@
       position: relative;
     }
 
-    /* TEMPAT CANVAS 3D */
     #scene-container {
       position: fixed;
       inset: 0;
       z-index: 0;
     }
 
-    /* overlay gelap dikit biar teks kebaca */
     body::after {
       content: "";
       position: fixed;
@@ -45,7 +43,6 @@
       z-index: 1;
     }
 
-    /* top bar */
     .top-bar {
       position: fixed;
       top: 14px;
@@ -86,32 +83,11 @@
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* teks tengah */
+    /* teks ungkapan DIHILANGIN (display:none) */
     .center-text {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 480px;
-      text-align: center;
-      padding: 0 16px;
-      z-index: 3;
-      text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+      display: none;
     }
 
-    .center-text h2 {
-      font-size: 2rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .center-text p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 0.35rem;
-      opacity: 0.96;
-    }
-
-    /* foto stack bawah */
     .photo-stack {
       position: fixed;
       bottom: 80px;
@@ -142,7 +118,6 @@
       transform: rotate(10deg) translateY(6px);
     }
 
-    /* footer */
     .footer {
       position: fixed;
       bottom: 16px;
@@ -156,14 +131,6 @@
     }
 
     @media (max-width: 600px) {
-      .center-text h2 {
-        font-size: 1.6rem;
-      }
-
-      .center-text p {
-        font-size: 0.85rem;
-      }
-
       .photo-stack img {
         width: 60px;
         height: 60px;
@@ -183,25 +150,19 @@
 </head>
 
 <body>
-  <!-- CANVAS 3D -->
   <div id="scene-container"></div>
 
-  <!-- UI TEKS -->
   <header class="top-bar">
     <h1 id="romantic-title">UNTUK QUEENSHA</h1>
     <button id="toggle-audio" class="btn-audio">
-      <span id="audio-icon">🔇</span>
+      <span id="audio-icon">🔊</span>
     </button>
   </header>
 
+  <!-- teks pengungkapan di-hide, tapi gue biarin kalau mau dipakai lagi -->
   <main class="center-text">
     <h2>Hai, Queensha</h2>
-    <p>Gue nggak jago ngomong manis, jadi gue bikin ini aja.</p>
-    <p>Dari semua orang yang lewat belakangan ini, yang paling sering kepikiran justru lu.</p>
-    <p>
-      Nggak ada tuntutan apa-apa, nggak ada harus dibalas. Gue cuma pengen lu tau,
-      kalau buat gue, lu itu bukan orang biasa.
-    </p>
+    <p>...</p>
   </main>
 
   <div class="photo-stack">
@@ -212,7 +173,6 @@
 
   <footer class="footer">Created by Akhdan • for Queensha</footer>
 
-  <!-- MUSIK -->
   <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
 
   <!-- SCRIPT 3D DALAM SATU FILE -->
@@ -242,7 +202,7 @@
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    // ===== CONTROLS (BISA DIPUTER & ZOOM) =====
+    // ===== CONTROLS =====
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
@@ -276,10 +236,10 @@
       scene.add(new THREE.Points(geo, mat));
     })();
 
-    // ===== HATI 3D PARTIKEL =====
+    // ===== HATI 3D PARTIKEL (LEBIH CERAH) =====
     function buildHeartGeometry() {
       const pts = [];
-      const count = 2500;
+      const count = 2800;
       for (let i = 0; i < count; i++) {
         const t = Math.random() * Math.PI * 2;
         const x = 16 * Math.pow(Math.sin(t), 3);
@@ -289,11 +249,11 @@
           2 * Math.cos(3 * t) -
           Math.cos(4 * t);
 
-        const nx = x * 0.12;
-        const ny = y * 0.12;
-        const nz = (Math.random() - 0.5) * 1.8;
+        const nx = x * 0.13;
+        const ny = y * 0.13;
+        const nz = (Math.random() - 0.5) * 2.0;
 
-        const jitter = 0.4;
+        const jitter = 0.45;
         pts.push(
           nx + (Math.random() - 0.5) * jitter,
           ny + (Math.random() - 0.5) * jitter,
@@ -307,18 +267,22 @@
 
     const heartGeo = buildHeartGeometry();
     const heartMat = new THREE.PointsMaterial({
-      color: new THREE.Color(0xff4b8b),
-      size: 0.14,
+      color: new THREE.Color(0xff8fe6),    // LEBIH CERAH
+      size: 0.18,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
     });
     const heart = new THREE.Points(heartGeo, heartMat);
     scene.add(heart);
 
     // ===== RING DI BAWAH HATI =====
-    const ringGeo = new THREE.RingGeometry(4.3, 4.7, 90);
+    const ringGeo = new THREE.RingGeometry(4.3, 4.8, 90);
     const ringMat = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.7,
       side: THREE.DoubleSide,
     });
     const ringMesh = new THREE.Mesh(ringGeo, ringMat);
@@ -326,7 +290,7 @@
     ringMesh.position.y = -4;
     scene.add(ringMesh);
 
-    // ===== SERPIHAN FOTO QUEENSHA =====
+    // ===== SERPIHAN FOTO BERHAMBURAN =====
     const texLoader = new THREE.TextureLoader();
     const textures = [
       texLoader.load("syantik.jpg"),
@@ -338,10 +302,10 @@
     scene.add(paperGroup);
 
     function createPhotoPieces() {
-      const count = 40;
+      const count = 80; // LEBIH BANYAK
       for (let i = 0; i < count; i++) {
         const tex = textures[i % textures.length];
-        const geo = new THREE.PlaneGeometry(1.0, 1.4);
+        const geo = new THREE.PlaneGeometry(1.2, 1.6);
         const mat = new THREE.MeshBasicMaterial({
           map: tex,
           transparent: true,
@@ -350,9 +314,9 @@
 
         const mesh = new THREE.Mesh(geo, mat);
 
-        const radius = 7 + Math.random() * 2.5;
+        const radius = 7 + Math.random() * 6; // lebih jauh -> berhamburan
         const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * (Math.PI / 2) + Math.PI / 4;
+        const phi = Math.random() * Math.PI; // sekeliling, bukan cuma atas
 
         mesh.position.set(
           radius * Math.sin(phi) * Math.cos(theta),
@@ -382,18 +346,30 @@
       renderer.setSize(w, h);
     });
 
-    // ===== AUDIO =====
+    // ===== AUDIO (AUTO PLAY) =====
     const bgMusic = document.getElementById("bg-music");
     const toggleBtn = document.getElementById("toggle-audio");
     const iconSpan = document.getElementById("audio-icon");
     let isPlaying = false;
 
+    function tryPlayMusic() {
+      if (!bgMusic || isPlaying) return;
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        iconSpan.textContent = "🔊";
+      }).catch(() => {
+        // kalau ke-block browser, nanti user bisa klik tombol
+        iconSpan.textContent = "🔇";
+      });
+    }
+
+    // coba auto play saat load
+    window.addEventListener("load", tryPlayMusic);
+    // kalau gagal, klik tombol masih bisa toggle
     toggleBtn.addEventListener("click", () => {
       if (!bgMusic) return;
       if (!isPlaying) {
-        bgMusic.play().catch(() => {});
-        isPlaying = true;
-        iconSpan.textContent = "🔊";
+        tryPlayMusic();
       } else {
         bgMusic.pause();
         isPlaying = false;
