@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queensha</title>
 
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #3b82f6 0, #020617 40%, #000 100%);
+      color: #f9fafb;
+      min-height: 100vh;
+    }
+
+    .intro-screen {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .intro-title {
+      font-family: "Playfair Display", serif;
+      font-size: 40px;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .intro-sub {
+      font-size: 14px;
+      opacity: 0.8;
+      max-width: 320px;
+    }
+
+    #enter-btn {
+      margin-top: 18px;
+      padding: 10px 26px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      background: #22c55e;
+      color: #020617;
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    #enter-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    }
+
+    .hidden { display: none; }
+    .fade-out { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+
+    main {
+      padding: 24px 16px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .hero-text { max-width: 380px; }
+
+    .hero-text h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .hero-text p {
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .hero-photo img {
+      width: 230px;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 26px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(248, 250, 252, 0.1);
+    }
+
+    .gallery {
+      margin-top: 32px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .gallery img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(248, 250, 252, 0.1);
+    }
+
+    .note {
+      margin-top: 28px;
+      font-size: 13px;
+      opacity: 0.75;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MUSIK -->
+  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
+
+  <!-- LAYAR AWAL -->
+  <div class="intro-screen" id="intro">
+    <h1 class="intro-title">Queensha</h1>
+    <p class="intro-sub">
+      Ada kalanya rasa cukup dijelaskan dengan halaman sederhana — tapi niat yang besar.
+    </p>
+    <button id="enter-btn">Masuk &amp; Putar Musik</button>
+  </div>
+
+  <!-- KONTEN UTAMA -->
+  <main class="hidden" id="main-content">
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Hai, Queensha ✨</h2>
+        <p>
+          Kalau kamu baca ini sambil dengerin lagunya,
+          semoga kamu ngerti yang susah diucapin langsung.
+        </p>
+      </div>
+
+      <!-- FOTO UTAMA -->
+      <div class="hero-photo">
+        <img src="syantik.png" alt="Foto Queensha" />
+      </div>
+    </section>
+
+    <!-- GALERI -->
+    <section class="gallery">
+      <img src="syantik2.png" alt="Foto Queensha 2" />
+      <img src="syantik3.png" alt="Foto Queensha 3" />
+    </section>
+
+    <p class="note">
+      Kalau suatu hari kamu nanya, “ini serius?” — iya, ini serius.
+    </p>
+  </main>
+
+  <script>
+    const btn = document.getElementById("enter-btn");
+    const music = document.getElementById("bg-music");
+    const main = document.getElementById("main-content");
+    const intro = document.getElementById("intro");
+
+    btn.addEventListener("click", () => {
+      music.play().catch(err => console.log(err));
+      intro.classList.add("fade-out");
+      setTimeout(() => {
+        intro.classList.add("hidden");
+        main.classList.remove("hidden");
+      }, 500);
+    });
+  </script>
+</body>
+    </html>
