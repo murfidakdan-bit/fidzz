@@ -1,167 +1,192 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scrapbook Ghibli ✨</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Untukmu</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: "Quicksand", sans-serif;
-      background: linear-gradient(180deg, #dff6ff, #e6f7dc, #ffe9d6);
-      min-height: 100vh;
-      overflow-x: hidden;
-      transition: 1.2s;
+      margin: 0;
+      background: #f5efd7;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
     }
-    .intro {
-      position: fixed;
-      inset: 0;
+
+    .page1, .page2, .page3 {
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
       text-align: center;
-      background: #cfe9ff;
-      z-index: 10;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 1s ease-out, transform 1s ease-out;
     }
-    .intro-card {
-      background: #ffffffd0;
-      padding: 22px;
-      border-radius: 18px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      max-width: 320px;
+
+    .page1 {
+      background: url('https://i.imgur.com/6b7pM5i.jpg');
+      background-size: cover;
+      color: white;
     }
-    .intro-card h1 {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 32px;
-      margin-bottom: 10px;
+
+    .page1 h1 {
+      font-size: 35px;
+      margin-bottom: 15px;
     }
-    .intro-card button {
-      margin-top: 12px;
-      margin-inline: 6px;
-      padding: 8px 18px;
+
+    .choice-btn {
+      padding: 10px 25px;
       border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .yes-btn { background: #98e6b3; }
-    .no-btn { background: #ffb3b3; }
-    .page {
-      opacity: 0;
-      visibility: hidden;
-      transition: 1s;
-      padding: 18px;
-      text-align: center;
-    }
-    .page.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .scrapbook {
-      max-width: 420px;
-      margin: auto;
-      background: #fffffc;
-      border-radius: 18px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-      padding-bottom: 28px;
-    }
-    .polaroid {
-      margin: 18px;
       background: #fff;
       border-radius: 12px;
-      padding: 8px 8px 18px;
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-      transform: rotate(-2deg);
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
     }
-    .polaroid img {
+
+    /* PAGE 2 SCRAPBOOK */
+    .page2 {
+      opacity: 0;
+      transform: scale(0.8);
+      background: #fffaf0;
+    }
+
+    .scrap-container {
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .scrap-img {
       width: 100%;
-      border-radius: 10px;
+      border-radius: 15px;
+      margin-top: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     }
-    .caption {
-      font-size: 12px;
-      margin-top: 6px;
+
+    /* PAGE 3 (PORTAL & FOTO) */
+    .page3 {
+      opacity: 0;
+      transform: scale(0.6);
+      background: #000;
+      color: white;
     }
-    .leaf {
+
+    /* ANIMASI PORTAL GINSHIN */
+    @keyframes portal-open {
+      0% { transform: scale(0.2); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .portal {
+      animation: portal-open 2s ease-out forwards;
+      width: 80vw;
+      max-width: 450px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px white;
+    }
+
+    .text-end {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    /* =========================
+       WINDAH GOYANG KIRI-KANAN
+    ===========================*/
+    .windah-wrapper {
       position: fixed;
-      top: -50px;
-      width: 28px;
-      height: 28px;
-      background: url('https://i.imgur.com/uO7IYzA.png');
-      background-size: cover;
-      animation: leaf-fall 6s linear infinite;
-      opacity: 0.7;
-      z-index: 0;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
     }
-    @keyframes leaf-fall {
-      100% { transform: translateY(110vh) translateX(-50px) rotate(180deg); }
+
+    .windah {
+      position: absolute;
+      display: block;
+      max-width: 110px;
+      width: 26vw;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
+      transform-origin: center bottom;
+      animation: windah-sway 3.5s ease-in-out infinite;
     }
+
+    .windah-top-left     { top:  -10px; left:  -8px; }
+    .windah-top-right    { top:    6px; right: -6px; }
+    .windah-bottom-left  { bottom: -8px; left:  -6px; }
+    .windah-bottom-right { bottom:-10px; right: -8px; }
+
+    @keyframes windah-sway {
+      0%   { transform: translateX(-4px) rotate(-3deg); }
+      25%  { transform: translateX( 2px) rotate( 2deg); }
+      50%  { transform: translateX( 4px) rotate( 3deg); }
+      75%  { transform: translateX(-2px) rotate(-2deg); }
+      100% { transform: translateX(-4px) rotate(-3deg); }
+    }
+
   </style>
 </head>
-
 <body>
 
-<audio id="bg-music" src="MUSIKK.mp3" loop></audio>
-
-<div class="intro" id="intro">
-  <div class="intro-card">
-    <h1>Hai, Queensha 🌿</h1>
-    <p>Halaman ini mungkin kayak mimpi, <br>lanjut nggak?</p>
-    <button class="yes-btn" id="yes">Iya</button>
-    <button class="no-btn" onclick="location.href='https://google.com'">Nggak</button>
+  <!-- PAGE 1 -->
+  <div class="page1" id="page1">
+    <h1>Hai Queensha 🌟</h1>
+    <p>Ini halaman kecil, khusus buat kamu. Lanjut gak?</p>
+    <button class="choice-btn" onclick="goToPage2()">Lanjut</button>
+    <button class="choice-btn" onclick="window.close()">Engga</button>
   </div>
-</div>
 
-<div class="page" id="page">
-  <div class="scrapbook">
-    <h2 style="font-family:'Shadows Into Light',cursive;padding-top:16px;">Untuk kamu ☁️</h2>
-
-    <div class="polaroid">
-      <img src="syantik.png" alt="">
-      <p class="caption">awal mula halaman ini ada 🌸</p>
-    </div>
-    <div class="polaroid">
-      <img src="syantik2.png" alt="">
-      <p class="caption">senyum kamu = ghibli moment ☀️</p>
-    </div>
-    <div class="polaroid" style="transform: rotate(2deg);">
-      <img src="syantik3.jpg" alt="">
-      <p class="caption">mimpi ini, jangan bangunin dulu 😌</p>
+  <!-- PAGE 2 -->
+  <div class="page2" id="page2">
+    <div class="scrap-container">
+      <h2>Kalau ini mimpi, jangan bangunin dulu 😊</h2>
+      <img src="syantik2.png" class="scrap-img">
+      <p>Seneng bisa kenal kamu — meskipun awalnya cuma biasa aja.</p>
+      <button class="choice-btn" onclick="goToPage3()">Lanjut ➜</button>
     </div>
   </div>
-</div>
 
-<!-- DIPINDAH KE PALING BAWAH BIAR BACA ELEMEN DULU BARU SCRIPT -->
-<script>
-  const yesBtn = document.getElementById("yes");
-  const intro = document.getElementById("intro");
-  const page = document.getElementById("page");
-  const music = document.getElementById("bg-music");
+  <!-- PAGE 3 (PORTAL GINSHIN) -->
+  <div class="page3" id="page3">
+    <img src="syantik3.jpg" class="portal">
+    <p class="text-end">Ditulis pelan-pelan... tapi serius 🫶</p>
+  </div>
 
-  yesBtn.addEventListener("click", () => {
-    // tutup intro
-    intro.style.opacity = "0";
+  <!-- WINDAH STICKERS -->
+  <div class="windah-wrapper">
+    <img src="windah1(stroberi).png" class="windah windah-top-left">
+    <img src="windahjoget.png" class="windah windah-top-right">
+    <img src="windahmetal.png" class="windah windah-bottom-left">
+    <img src="windahmatahari.png" class="windah windah-bottom-right">
+  </div>
 
-    setTimeout(() => {
-      intro.style.display = "none";
-      page.classList.add("show");
+  <!-- MUSIK -->
+  <audio id="bgmusic" src="lagu.mp3" autoplay loop></audio>
 
-      music.play().catch(() => {});
-      for (let i = 0; i < 3; i++) spawnLeaf();
-    }, 700);
-  });
+  <script>
+    function goToPage2() {
+      document.getElementById('page1').style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.opacity = "1";
+      }, 1000);
+    }
 
-  function spawnLeaf() {
-    const leaf = document.createElement("div");
-    leaf.className = "leaf";
-    leaf.style.left = Math.random() * 100 + "%";
-    leaf.style.animationDuration = (4 + Math.random() * 3) + "s";
-    document.body.appendChild(leaf);
-    setTimeout(() => leaf.remove(), 7000);
-  }
-</script>
+    function goToPage3() {
+      document.getElementById('page2').style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById('page2').style.display = 'none';
+        document.getElementById('page3').style.opacity = "1";
+        document.getElementById('page3').style.transform = "scale(1)";
+      }, 1000);
+    }
+  </script>
 
 </body>
 </html>
