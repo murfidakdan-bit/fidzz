@@ -1,270 +1,191 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scrapbook for Queensha ✨</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrapbook Ghibli ✨</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <!-- FONT GHIBLI STYLE -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
+      font-family: "Quicksand", sans-serif;
+      background: linear-gradient(180deg, #dff6ff, #e6f7dc, #ffe9d6);
       min-height: 100vh;
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at top, #fdebd0 0, #f9e5c6 30%, #f4d9b5 60%, #e9c59a 100%);
-      display: flex;
-      justify-content: center;
-      padding: 18px 10px 40px;
-      color: #2b2b2b;
+      overflow-x:hidden;
+      transition: 1.2s;
     }
 
-    .book {
-      width: 100%;
-      max-width: 420px;
-      background: #fff8ec;
-      border-radius: 18px;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.2);
-      padding: 18px 18px 28px;
-      position: relative;
-      overflow: hidden;
+    /* OPENING */
+    .intro {
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background: linear-gradient(180deg, #b9e6ff, #c9f7c3);
+      z-index:10;
     }
 
-    /* Lubang binder di pinggir */
-    .holes {
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      opacity: 0.35;
-    }
-    .holes span {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      border: 2px solid #d4b48a;
-      background: #f5e0ba;
+    .intro-card {
+      background: #ffffffd0;
+      padding: 22px 20px;
+      border-radius:18px;
+      box-shadow:0 12px 24px rgba(0,0,0,0.15);
+      max-width:320px;
     }
 
-    .header {
-      text-align: left;
-      margin-left: 18px;
-      margin-bottom: 10px;
+    .intro-card h1 {
+      font-family:"Shadows Into Light", cursive;
+      font-size:32px;
+      margin-bottom:10px;
+      color:#3a4d3c;
     }
 
-    .title {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 32px;
-      margin-bottom: -4px;
+    .intro-card button {
+      margin-top:12px;
+      margin-inline:6px;
+      padding:8px 18px;
+      border:none;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 4px 8px rgba(0,0,0,0.1);
+    }
+    .yes-btn { background:#98e6b3; }
+    .no-btn  { background:#ffb3b3; }
+
+    /* GHIBLI PAGE */
+    .page {
+      opacity:0;
+      visibility:hidden;
+      transition:1.2s;
+      padding:18px;
+      text-align:center;
     }
 
-    .subtitle {
-      font-size: 13px;
-      opacity: 0.75;
-      max-width: 260px;
+    .page.show {
+      opacity:1;
+      visibility:visible;
     }
 
-    /* Tombol music */
-    .music-btn {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      padding: 6px 12px;
-      font-size: 11px;
-      border-radius: 999px;
-      border: none;
-      background: #ffb4c8;
-      color: #4a151f;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(255,180,200,0.7);
-      cursor: pointer;
+    .scrapbook {
+      max-width:420px;
+      margin:auto;
+      background:#fffffc;
+      padding-bottom:28px;
+      border-radius:18px;
+      box-shadow:0 20px 45px rgba(0,0,0,0.25);
+      position:relative;
+      overflow:hidden;
     }
 
-    .music-btn.playing {
-      background: #4ade80;
-      color: #064e3b;
-      box-shadow: 0 4px 12px rgba(74,222,128,0.6);
-    }
-
-    /* Area scrapbook */
-    .scrap {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      padding: 8px 6px 0;
-    }
-
+    /* PHOTO POLAROID STYLE */
     .polaroid {
-      background: #fff;
-      border-radius: 14px;
-      padding: 6px 6px 12px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-      position: relative;
-      transform-origin: center;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin:18px;
+      background:#fff;
+      border-radius:12px;
+      padding:8px 8px 18px;
+      box-shadow:0 6px 14px rgba(0,0,0,0.15);
+      transform: rotate(-2deg);
+      transition: .3s;
     }
+    .polaroid:hover { transform:scale(1.04); }
 
     .polaroid img {
-      width: 100%;
-      border-radius: 10px;
-      display: block;
-      object-fit: cover;
-      max-height: 190px;
+      width:100%;
+      border-radius:10px;
     }
 
-    .polaroid p {
-      margin-top: 6px;
-      font-size: 11px;
-      text-align: center;
+    .caption {
+      font-size:12px;
+      margin-top:6px;
     }
 
-    .p1 { transform: rotate(-3deg); grid-column: 1/3; }
-    .p2 { transform: rotate(3deg); }
-    .p3 { transform: rotate(-2deg); }
-
-    .polaroid:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 14px 26px rgba(0,0,0,0.22);
+    /* GHIBLI ANIMATION : daun jatuh */
+    .leaf {
+      position:fixed;
+      top:-10%;
+      width:30px;
+      height:30px;
+      background:url('https://i.imgur.com/uO7IYzA.png');
+      background-size:cover;
+      animation: leaf-fall 6s linear infinite;
+      opacity:0.7;
+      z-index:1;
     }
 
-    /* "Selotip" */
-    .tape {
-      position: absolute;
-      top: -6px;
-      left: 25%;
-      right: 25%;
-      height: 14px;
-      background: rgba(255,255,255,0.7);
-      border-radius: 4px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
-      transform: rotate(-2deg);
-    }
-
-    /* Sticky note */
-    .note {
-      margin-top: 16px;
-      background: #fffbcc;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.18);
-      position: relative;
-    }
-
-    .note::before {
-      content: "";
-      position: absolute;
-      width: 40px;
-      height: 18px;
-      background: rgba(255,255,255,0.7);
-      top: -8px;
-      left: 18px;
-      transform: rotate(-8deg);
-      border-radius: 3px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.16);
-    }
-
-    .note b {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 18px;
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .foot {
-      margin-top: 12px;
-      font-size: 11px;
-      opacity: 0.7;
-      text-align: right;
-      padding-right: 6px;
-      font-style: italic;
-    }
-
-    @media (max-width: 360px) {
-      .book { padding-inline: 12px; }
-      .scrap { gap: 10px; }
+    @keyframes leaf-fall {
+      0% { transform: translateX(0) translateY(0) rotate(0deg); }
+      100% { transform: translateX(-80px) translateY(100vh) rotate(180deg); }
     }
   </style>
 </head>
 <body>
 
-  <!-- MUSIK -->
-  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
+<!-- MUSIK GHIBLI -->
+<audio id="bg-music" src="MUSIKK.mp3" loop></audio>
 
-  <div class="book">
-    <div class="holes">
-      <span></span><span></span><span></span><span></span>
+<!-- OPENING -->
+<div class="intro" id="intro">
+  <div class="intro-card">
+    <h1>Hai, Queensha 🌿</h1>
+    <p>Halaman ini mungkin terasa kayak mimpi.<br>lanjut?</p>
+    <button class="yes-btn" id="yes">Iya</button>
+    <button class="no-btn" onclick="window.location.href='https://google.com'">Nggak</button>
+  </div>
+</div>
+
+<!-- GHIBLI SCRAPBOOK PAGE -->
+<div class="page" id="page">
+  <div class="scrapbook">
+    <h2 style="font-family:'Shadows Into Light',cursive;padding-top:16px;">Untuk kamu ☁️</h2>
+    <div class="polaroid">
+      <img src="syantik.png">
+      <p class="caption">awal mula halaman ini ada 🌸</p>
     </div>
-
-    <button id="musicBtn" class="music-btn">▶ Play lagu</button>
-
-    <header class="header">
-      <div class="title">Hai, Queensha ✨</div>
-      <p class="subtitle">
-        Kalau kamu baca ini sambil dengerin lagunya, 
-        semoga kamu ngerti yang susah diucapin langsung.
-      </p>
-    </header>
-
-    <section class="scrap">
-      <!-- FOTO UTAMA -->
-      <div class="polaroid p1">
-        <div class="tape"></div>
-        <img src="syantik.png" alt="Queensha 1">
-        <p>halaman kecil yang cuma punya kamu 🌸</p>
-      </div>
-
-      <!-- FOTO 2 -->
-      <div class="polaroid p2">
-        <div class="tape"></div>
-        <img src="syantik2.png" alt="Queensha 2">
-        <p>senyum kamu = alasan halaman ini ada ☀️</p>
-      </div>
-
-      <!-- FOTO 3 -->
-      <div class="polaroid p3">
-        <div class="tape"></div>
-        <img src="syantik3.png" alt="Queensha 3">
-        <p>kalau ini mimpi, jangan bangunin dulu 😌</p>
-      </div>
-    </section>
-
-    <section class="note">
-      <b>catatan kecil:</b>
-      kadang kata-kata ribet banget keluar dari mulut,  
-      jadi ya sudah... aku taro aja di sini.  
-      kalau suatu hari kamu nanya, “ini beneran?” — iya, ini beneran.
-    </section>
-
-    <div class="foot">
-      ditulis pelan-pelan, tapi serius. 🤍
+    <div class="polaroid">
+      <img src="syantik2.png">
+      <p class="caption">senyum kamu = ghibli moment ku ☀️</p>
+    </div>
+    <div class="polaroid" style="transform:rotate(2deg);">
+      <img src="syantik3.jpg">
+      <p class="caption">mimpi ini jangan bangunin dulu 😌</p>
     </div>
   </div>
+</div>
 
-  <script>
-    const music = document.getElementById("bg-music");
-    const btn = document.getElementById("musicBtn");
-    let isPlaying = false;
+<script>
+  const yes = document.getElementById("yes");
+  const page = document.getElementById("page");
+  const intro = document.getElementById("intro");
+  const music = document.getElementById("bg-music");
 
-    btn.addEventListener("click", () => {
-      if (!isPlaying) {
-        music.play().catch(() => {});
-        isPlaying = true;
-        btn.textContent = "⏸ Pause lagu";
-        btn.classList.add("playing");
-      } else {
-        music.pause();
-        isPlaying = false;
-        btn.textContent = "▶ Play lagu";
-        btn.classList.remove("playing");
-      }
-    });
-  </script>
+  yes.addEventListener("click", ()=>{
+    intro.style.opacity="0";
+    music.play().catch(()=>{});
+    setTimeout(()=>{
+      intro.style.display="none";
+      page.classList.add("show");
+      spawnLeaf();
+      spawnLeaf();
+    },800);
+  });
+
+  function spawnLeaf(){
+    const leaf = document.createElement("div");
+    leaf.classList.add("leaf");
+    leaf.style.left = Math.random()*100 + "%";
+    leaf.style.animationDuration = (4 + Math.random()*3) + "s";
+    document.body.appendChild(leaf);
+    setTimeout(()=> leaf.remove(), 7000);
+  }
+}
+</script>
 
 </body>
 </html>
