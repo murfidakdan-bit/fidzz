@@ -5,9 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Untuk Queensha</title>
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Importmap buat Three.js (3D) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+        "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js"
+      }
+    }
+  </script>
 </head>
 <body>
-  <canvas id="heart-canvas"></canvas>
+  <!-- Tempat canvas 3D -->
+  <div id="scene-container"></div>
 
   <header class="top-bar">
     <h1 id="romantic-title">Untuk Queensha</h1>
@@ -22,16 +33,15 @@
       Gue nggak jago ngomong manis, jadi gue bikin ini aja.
     </p>
     <p>
-      Intinya, dari semua orang yang lewat di hidup gue akhir-akhir ini,
-      lu yang paling sering kepikiran.
+      Dari semua orang yang lewat belakangan ini, yang paling sering kepikiran justru lu.
     </p>
     <p>
       Nggak ada tuntutan apa-apa, nggak ada harus dibalas.
-      Gue cuma pengen lu tau kalau buat gue, lu itu bukan orang biasa.
+      Gue cuma pengen lu tau, kalau buat gue, lu itu bukan orang biasa.
     </p>
   </main>
 
-  <!-- foto dia di tengah (opsional bisa lu ganti mana yg dipakai) -->
+  <!-- foto dia (overlay, bebas mau lu pakai atau nggak) -->
   <div class="photo-stack">
     <img src="syantik.jpg"  alt="Queensha 1" />
     <img src="syantik2.jpg" alt="Queensha 2" />
@@ -45,6 +55,7 @@
   <!-- musik lokal -->
   <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
 
-  <script src="script.js"></script>
+  <!-- Script 3D (HARUS type="module") -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
