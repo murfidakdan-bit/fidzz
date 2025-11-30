@@ -2,11 +2,11 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Halaman Kecil Untuk Queensha</title>
+  <title>Queensha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- FONT GEMOY -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+  <!-- Font Google (boleh ganti kalau mau) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
 
   <style>
     * {
@@ -16,597 +16,381 @@
     }
 
     body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
-      font-family: "Baloo 2", system-ui, sans-serif;
-      background: radial-gradient(circle at top, #fef3c7 0, #fecaca 45%, #111827 100%);
-      color: #111827;
-      overflow: hidden;
-    }
-
-    /* ====== HALAMAN (PAGE) ====== */
-    .page {
-      position: fixed;
-      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px 14px;
-      opacity: 0;
-      transform: scale(0.9);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .page.active {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-    }
-
-    /* ====== PAGE 1 – OPENING ====== */
-    .intro-card {
-      background: rgba(15, 23, 42, 0.9);
-      color: #f9fafb;
-      border-radius: 24px;
-      padding: 26px 22px 26px;
-      max-width: 360px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
-      position: relative;
+      background: radial-gradient(circle at top, #ff9ce3 0%, #5f2cff 40%, #0b0b16 100%);
+      color: #fff;
       overflow: hidden;
     }
 
-    .intro-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at top, rgba(252, 211, 77, 0.35) 0, transparent 60%);
-      opacity: 0.9;
+    .overlay-gradient {
+      position: fixed;
+      inset: 0;
       pointer-events: none;
-    }
-
-    .intro-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .intro-title {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .intro-sub {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 18px;
-    }
-
-    .intro-question {
-      font-size: 16px;
-      margin-bottom: 16px;
-    }
-
-    .intro-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .btn-pill {
-      padding: 9px 22px;
-      border-radius: 999px;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-      position: relative;
-      z-index: 2;
-    }
-
-    .btn-pill:active {
-      transform: translateY(2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      filter: brightness(0.95);
-    }
-
-    #btn-yes {
-      background: #4ade80;
-      color: #064e3b;
-    }
-
-    #btn-no {
-      background: #fca5a5;
-      color: #7f1d1d;
-    }
-
-    .intro-note {
-      font-size: 11px;
-      opacity: 0.7;
-    }
-
-    /* ====== PAGE 2 – SCRAPBOOK ====== */
-    .scrap-wrapper {
-      max-width: 420px;
-      width: 100%;
-      background: #fff7ed;
-      border-radius: 22px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
-      padding: 18px 16px 22px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .scrap-paper {
-      position: absolute;
-      inset: 16px 12px 16px 12px;
-      background: repeating-linear-gradient(
-        180deg,
-        rgba(254, 243, 199, 0.85),
-        rgba(254, 243, 199, 0.85) 22px,
-        rgba(252, 211, 77, 0.2) 22px,
-        rgba(252, 211, 77, 0.2) 23px
-      );
-      border-radius: 16px;
-      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.08) 0, transparent 55%),
+        radial-gradient(circle at 95% 100%, rgba(255, 255, 255, 0.05) 0, transparent 60%);
+      mix-blend-mode: screen;
       opacity: 0.85;
     }
 
-    .scrap-inner {
+    .wrapper {
       position: relative;
+      width: 100%;
+      max-width: 420px;
+      padding: 16px;
       z-index: 1;
     }
 
-    .scrap-title {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 26px;
+    .phone-frame {
+      position: relative;
+      border-radius: 32px;
+      padding: 10px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(80, 80, 255, 0.3));
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+    }
+
+    .phone-inner {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #05050a;
+      aspect-ratio: 9 / 16;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* Foto Queensha */
+    .photo-wrapper {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform-origin: center;
+      animation: zoomIn 18s ease-out forwards;
+      filter: saturate(1.05) contrast(1.05);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 30%, transparent 65%),
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.12) 0, transparent 60%);
+      mix-blend-mode: multiply;
+    }
+
+    /* Header kecil di atas (kalau di video ada) */
+    .top-label {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(80, 80, 80, 0.6));
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot-live {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #ff4b8b;
+      box-shadow: 0 0 12px rgba(255, 75, 139, 0.8);
+      animation: pulse 1.4s infinite ease-out;
+    }
+
+    /* Text utama */
+    .text-block {
+      position: relative;
+      padding: 18px 18px 22px;
+      z-index: 2;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      margin-bottom: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    .tag-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffd66d;
+    }
+
+    .title {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-shadow: 0 0 18px rgba(0, 0, 0, 0.85);
       margin-bottom: 6px;
     }
 
-    .scrap-text {
+    .subtitle {
       font-size: 13px;
-      line-height: 1.7;
+      opacity: 0.9;
       margin-bottom: 12px;
     }
 
-    .scrap-photo-main {
-      width: 100%;
-      border-radius: 16px;
-      margin: 6px 0 12px;
-      transform: rotate(-2deg);
-      box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25);
-      background: #111827;
-      padding: 6px;
+    .lines-wrapper {
+      margin-top: 4px;
     }
 
-    .scrap-photo-main img {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
-    }
-
-    .scrap-photo-small-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .scrap-photo-small {
-      flex: 1;
-      background: #111827;
-      padding: 4px;
-      border-radius: 12px;
-      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.25);
-      transform: rotate(2deg);
-    }
-
-    .scrap-photo-small img {
-      width: 100%;
-      display: block;
-      border-radius: 10px;
-    }
-
-    .scrap-bottom {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 6px;
-    }
-
-    #btn-next-core {
-      background: #38bdf8;
-      color: #0f172a;
-    }
-
-    /* ====== PAGE 3 – PORTAL + FOTO ====== */
-    .photo-wrapper {
-      max-width: 420px;
-      width: 100%;
-      background: #020617;
-      border-radius: 22px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
-      padding: 20px 16px 22px;
-      position: relative;
-      overflow: hidden;
-      color: #e5e7eb;
-    }
-
-    .dream-header {
-      font-family: "Shadows Into Light", cursive;
-      font-size: 26px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .frame-paper {
-      margin-top: 6px;
-      background: #fefce8;
-      border-radius: 16px;
-      padding: 14px 10px 16px;
-      position: relative;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
-    }
-
-    .frame-paper::before {
-      content: "";
-      position: absolute;
-      width: 70px;
-      height: 18px;
-      background: rgba(255, 255, 255, 0.9);
-      top: -8px;
-      left: 20%;
-      border-radius: 6px;
-      transform: rotate(-7deg);
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    }
-
-    .frame-inner {
-      background: #020617;
-      border-radius: 12px;
-      padding: 6px;
-      overflow: hidden;
-    }
-
-    .frame-inner img {
-      width: 100%;
-      border-radius: 10px;
-      display: block;
-      object-fit: cover;
-      max-height: 260px;
-    }
-
-    .closing-text {
+    .line {
       font-size: 13px;
-      line-height: 1.7;
-      margin-top: 12px;
-      text-align: center;
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(4px);
+      text-shadow: 0 0 18px rgba(0, 0, 0, 0.95);
+      animation: fadeLine 0.9s forwards ease-out;
     }
 
-    .photo-bottom {
-      margin-top: 14px;
+    .line + .line {
+      margin-top: 2px;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: #ffd9fb;
+    }
+
+    /* Info kecil bawah (semacam footer) */
+    .bottom-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      width: 100%;
+      padding: 0 16px 8px;
       display: flex;
-      justify-content: center;
-    }
-
-    #btn-close-all {
-      background: #f97316;
-      color: #451a03;
-    }
-
-    /* ====== PORTAL ala GENSHIN ====== */
-    .door-overlay {
-      position: fixed;
-      inset: 0;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      opacity: 0.92;
       pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      z-index: 9;
     }
 
-    .door-overlay.active {
-      opacity: 1;
+    .bottom-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .door-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, #ffffff 0, #e5e7eb 35%, #020617 100%);
-      opacity: 0.8;
-    }
-
-    .door-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 60vmin;
-      height: 60vmin;
-      transform: translate(-50%, -50%) scale(0.1);
+    .name-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
       border-radius: 999px;
-      background: radial-gradient(circle at center,
-        #ffffff 0,
-        #fefce8 30%,
-        #fde68a 55%,
-        rgba(253,224,71,0.1) 80%,
-        transparent 100%
-      );
-      box-shadow: 0 0 60px rgba(255, 255, 255, 0.9);
-      opacity: 0;
+      background: rgba(0, 0, 0, 0.68);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(10px);
     }
 
-    .door-slit {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 2px;
-      height: 100%;
-      transform: translateX(-50%) scaleX(0);
-      background: linear-gradient(
-        180deg,
-        #ffffff,
-        #fef9c3,
-        #f97316,
-        #fef9c3,
-        #ffffff
-      );
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
-      opacity: 0;
+    .avatar-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #ffd2f0 0, #ff69b4 38%, #3813a0 100%);
     }
 
-    .door-overlay.open .door-glow {
-      animation: genshinGlow 0.8s ease-out forwards;
+    .bottom-right {
+      text-align: right;
+      font-size: 10px;
+      opacity: 0.85;
     }
 
-    .door-overlay.open .door-slit {
-      animation: genshinSlit 0.8s ease-out forwards;
+    .mini-pill {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(0, 0, 0, 0.7);
+      margin-top: 3px;
     }
 
-    @keyframes genshinGlow {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.1);
+    /* Animasi */
+    @keyframes zoomIn {
+      from {
+        transform: scale(1.1);
       }
-      40% {
+      to {
+        transform: scale(1.25);
+      }
+    }
+
+    @keyframes fadeLine {
+      to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1.05);
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(1.8);
+        opacity: 0;
       }
       100% {
-        opacity: 0.9;
-        transform: translate(-50%, -50%) scale(1.2);
-      }
-    }
-
-    @keyframes genshinSlit {
-      0% {
+        transform: scale(1);
         opacity: 0;
-        transform: translateX(-50%) scaleX(0);
-      }
-      30% {
-        opacity: 1;
-        transform: translateX(-50%) scaleX(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(-50%) scaleX(1.4);
       }
     }
 
-    /* ====== FADE HITAM (AKHIR) ====== */
-    .fade-black {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.8s ease;
-      z-index: 30;
-    }
-
-    .fade-black.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* ====== STIKER WINDAH ====== */
-    .windah-wrapper {
-      position: fixed;
-      inset: 0;
-      pointer-events: none; /* PENTING: biar gak nutup tombol */
-      z-index: 5;
-    }
-
-    .windah {
-      position: absolute;
-      display: block;
-      max-width: 110px;
-      width: 26vw;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
-      transform-origin: center bottom;
-      animation: windah-sway 3.5s ease-in-out infinite;
-    }
-
-    .windah-top-left     { top:  -10px; left:  -8px; }
-    .windah-top-right    { top:    6px; right: -6px; }
-    .windah-bottom-left  { bottom: -8px; left:  -6px; }
-    .windah-bottom-right { bottom:-10px; right: -8px; }
-
-    @keyframes windah-sway {
-      0%   { transform: translateX(-4px) rotate(-3deg); }
-      25%  { transform: translateX( 2px) rotate( 2deg); }
-      50%  { transform: translateX( 4px) rotate( 3deg); }
-      75%  { transform: translateX(-2px) rotate(-2deg); }
-      100% { transform: translateX(-4px) rotate(-3deg); }
-    }
-
+    /* di bawah 360px biar gak kepotong */
     @media (max-width: 360px) {
-      .intro-card, .scrap-wrapper, .photo-wrapper {
-        padding-inline: 14px;
+      .wrapper {
+        padding: 10px;
+      }
+
+      .phone-frame {
+        border-radius: 26px;
+      }
+
+      .phone-inner {
+        border-radius: 20px;
+      }
+
+      .text-block {
+        padding: 14px 14px 18px;
+      }
+
+      .title {
+        font-size: 17px;
+      }
+
+      .subtitle,
+      .line {
+        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="overlay-gradient"></div>
 
-  <!-- MUSIK -->
-  <!-- ganti MUSIKK.mp3 kalau nama file lagunya beda -->
-  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
-
-  <!-- PAGE 1 -->
-  <section id="page1" class="page active">
-    <div class="intro-card">
-      <div class="intro-inner">
-        <h1 class="intro-title">Hai Queensha ✨</h1>
-        <p class="intro-sub">
-          Ini halaman kecil yang cuma aku siapin buat kamu.
-        </p>
-        <p class="intro-question">Mau dilanjut?</p>
-
-        <div class="intro-buttons">
-          <button id="btn-yes" class="btn-pill">Lanjut</button>
-          <button id="btn-no" class="btn-pill">Engga</button>
+  <div class="wrapper">
+    <div class="phone-frame">
+      <div class="phone-inner">
+        <!-- Foto Queensha -->
+        <div class="photo-wrapper">
+          <!-- GANTI src kalau nama file fotonya beda -->
+          <img src="queensha.jpg" alt="Queensha" class="photo" />
+          <div class="photo-overlay"></div>
         </div>
 
-        <p class="intro-note">
-          kalau kamu klik “lanjut”, halaman bakal pelan-pelan berubah :)
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PAGE 2 -->
-  <section id="page2" class="page">
-    <div class="scrap-wrapper">
-      <div class="scrap-paper"></div>
-      <div class="scrap-inner">
-        <h2 class="scrap-title">Halaman inti 💌</h2>
-        <p class="scrap-text">
-          aku nggak jago ngomong langsung, jadi aku taro di sini aja.
-          mungkin buat orang lain ini cuma halaman random di internet,
-          tapi buat aku ini cara paling gampang buat bilang kalau kamu
-          itu spesial. hal-hal kecil dari kamu, entah kenapa selalu
-          ke-save di kepala aku.
-        </p>
-
-        <div class="scrap-photo-main">
-          <img src="syantik.png" alt="Foto Queensha 1">
+        <!-- Label atas (kalau mau bisa dihapus) -->
+        <div class="top-label">
+          <div class="dot-live"></div>
+          <span>Pengungkapan spesial</span>
         </div>
 
-        <div class="scrap-photo-small-row">
-          <div class="scrap-photo-small">
-            <img src="syantik2.png" alt="Foto Queensha 2">
+        <!-- Teks utama -->
+        <div class="text-block">
+          <div class="tag">
+            <span class="tag-dot"></span>
+            <span>PENGUNGKAPAN RASA</span>
+          </div>
+
+          <!-- Judul & subjudul bisa lu sesuaikan sama isi video -->
+          <div class="title">
+            Buat <span class="highlight">Queensha</span> yang selalu
+            gue pikirin diam-diam.
+          </div>
+          <div class="subtitle">
+            Kalau lu baca ini, anggap aja ini versi tulisan dari apa yang
+            pengen gue omongin dari dulu.
+          </div>
+
+          <div class="lines-wrapper">
+            <!--
+              EDIT teks baris-baris di bawah ini biar sama persis kaya video lu.
+              Urutannya bakal muncul satu-satu kaya efek di TikTok.
+            -->
+            <p class="line">
+              Gue gak tau ini bakal lebay atau nggak, tapi yang jelas
+              semuanya jujur dari hati gue.
+            </p>
+            <p class="line">
+              Setiap hari, selalu ada momen kecil yang bikin gue keinget
+              lu, entah dari chat, stories, atau cuma nama lu lewat di kepala.
+            </p>
+            <p class="line">
+              Gue cuma pengen lu tau, tanpa maksain apa-apa:
+              <span class="highlight">lu itu spesial banget buat gue.</span>
+            </p>
+            <p class="line">
+              Kalau suatu hari nanti lu ngerasa sendiri atau capek sama
+              semuanya, ingat aja ada gue yang selalu doain dan dukung lu,
+              meski dari jauh.
+            </p>
           </div>
         </div>
 
-        <p class="scrap-text">
-          kalau suatu hari kamu lagi capek atau ngerasa sendirian,
-          semoga kamu inget kalau ada seseorang yang seneng banget
-          lihat kamu bahagia — dan iya, itu aku.
-        </p>
+        <!-- Footer kecil di bawah -->
+        <div class="bottom-bar">
+          <div class="bottom-left">
+            <div class="name-pill">
+              <div class="avatar-circle"></div>
+              <span>Untuk: Queensha</span>
+            </div>
+            <span style="opacity: 0.75; font-size: 10px;">
+              Dari seseorang yang lagi belajar jujur sama perasaannya sendiri.
+            </span>
+          </div>
 
-        <div class="scrap-bottom">
-          <button id="btn-next-core" class="btn-pill">Lanjut ➜</button>
+          <div class="bottom-right">
+            <span>Swipe di hati kamu</span>
+            <div class="mini-pill">01 / 01</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- PAGE 3 -->
-  <section id="page3" class="page">
-    <div class="photo-wrapper">
-      <h2 class="dream-header">Bagian favorit di halaman ini ✨</h2>
-
-      <div class="frame-paper">
-        <div class="frame-inner">
-          <img src="syantik3.jpg" alt="Foto Queensha 3">
-        </div>
-      </div>
-
-      <p class="closing-text">
-        kalau nanti kamu nanya, “ini beneran?” — iya, ini beneran.  
-        aku cuma berharap kamu selalu ketemu alasan buat senyum, termasuk dari halaman kecil ini.
-      </p>
-
-      <div class="photo-bottom">
-        <button id="btn-close-all" class="btn-pill">Tutup halaman</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTAL TRANSITION -->
-  <div id="door" class="door-overlay">
-    <div class="door-bg"></div>
-    <div class="door-glow"></div>
-    <div class="door-slit"></div>
-  </div>
-
-  <!-- FADE HITAM AKHIR -->
-  <div id="fadeBlack" class="fade-black"></div>
-
-  <!-- STIKER WINDAH -->
-  <div class="windah-wrapper">
-    <img src="windah1(stroberi).png" alt="Windah stroberi" class="windah windah-top-left">
-    <img src="windahjoget.png" alt="Windah joget" class="windah windah-top-right">
-    <img src="windahmetal.png" alt="Windah metal" class="windah windah-bottom-left">
-    <img src="windahmatahari.png" alt="Windah matahari" class="windah windah-bottom-right">
   </div>
 
   <script>
-    const page1 = document.getElementById("page1");
-    const page2 = document.getElementById("page2");
-    const page3 = document.getElementById("page3");
-    const btnYes = document.getElementById("btn-yes");
-    const btnNo = document.getElementById("btn-no");
-    const btnNextCore = document.getElementById("btn-next-core");
-    const btnCloseAll = document.getElementById("btn-close-all");
-    const door = document.getElementById("door");
-    const fadeBlack = document.getElementById("fadeBlack");
-    const music = document.getElementById("bg-music");
-
-    // mulai musik setelah klik "Lanjut" (biar aman di HP)
-    btnYes.addEventListener("click", () => {
-      page1.classList.remove("active");
-      page2.classList.add("active");
-      music.play().catch(() => {});
-    });
-
-    btnNo.addEventListener("click", () => {
-      // keluar halus: bisa diarahkan ke google / blank
-      window.location.href = "https://google.com";
-    });
-
-    btnNextCore.addEventListener("click", () => {
-      // portal effect
-      door.classList.add("active");
-      door.classList.add("open");
-
-      setTimeout(() => {
-        door.classList.remove("active");
-        door.classList.remove("open");
-        page2.classList.remove("active");
-        page3.classList.add("active");
-      }, 900);
-    });
-
-    btnCloseAll.addEventListener("click", () => {
-      fadeBlack.classList.add("show");
-      let vol = music.volume;
-      const step = 0.05;
-
-      const fadeInterval = setInterval(() => {
-        vol -= step;
-        if (vol <= 0) {
-          vol = 0;
-          music.volume = 0;
-          music.pause();
-          clearInterval(fadeInterval);
-        } else {
-          music.volume = vol;
-        }
-      }, 200);
+    // Biar tiap baris teks muncul satu-satu
+    const lines = document.querySelectorAll(".line");
+    lines.forEach((line, index) => {
+      const delay = 1.4 + index * 1.3; // detik
+      line.style.animationDelay = delay + "s";
     });
   </script>
 </body>
-  </html>
+</html>
