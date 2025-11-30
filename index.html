@@ -83,7 +83,7 @@
       background: rgba(255, 255, 255, 0.15);
     }
 
-    /* teks ungkapan DIHILANGIN (display:none) */
+    /* teks ungkapan di-hide */
     .center-text {
       display: none;
     }
@@ -159,7 +159,6 @@
     </button>
   </header>
 
-  <!-- teks pengungkapan di-hide, tapi gue biarin kalau mau dipakai lagi -->
   <main class="center-text">
     <h2>Hai, Queensha</h2>
     <p>...</p>
@@ -236,10 +235,40 @@
       scene.add(new THREE.Points(geo, mat));
     })();
 
-    // ===== HATI 3D PARTIKEL (LEBIH CERAH) =====
+    // ===== PLANET-PANET TIPIS-TIPIS =====
+    const planetGroup = new THREE.Group();
+    scene.add(planetGroup);
+
+    function createPlanet(radius, distance, color, speed) {
+      const geo = new THREE.SphereGeometry(radius, 32, 32);
+      const mat = new THREE.MeshPhongMaterial({
+        color,
+        emissive: color,
+        emissiveIntensity: 0.25,
+        shininess: 60,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+
+      const angle = Math.random() * Math.PI * 2;
+      mesh.position.set(
+        Math.cos(angle) * distance,
+        (Math.random() - 0.5) * 3,
+        Math.sin(angle) * distance
+      );
+      mesh.userData.orbitRadius = distance;
+      mesh.userData.orbitAngle = angle;
+      mesh.userData.orbitSpeed = speed;
+      planetGroup.add(mesh);
+    }
+
+    createPlanet(1.2, 18, 0x4b9dff, 0.03); // biru
+    createPlanet(0.9, 22, 0xffce6b, 0.02); // kuning
+    createPlanet(1.5, 26, 0xb96bff, 0.015); // ungu
+
+    // ===== HATI 3D PARTIKEL (LEBIH CERAH & PADAT) =====
     function buildHeartGeometry() {
       const pts = [];
-      const count = 2800;
+      const count = 3200;
       for (let i = 0; i < count; i++) {
         const t = Math.random() * Math.PI * 2;
         const x = 16 * Math.pow(Math.sin(t), 3);
@@ -253,7 +282,7 @@
         const ny = y * 0.13;
         const nz = (Math.random() - 0.5) * 2.0;
 
-        const jitter = 0.45;
+        const jitter = 0.35;
         pts.push(
           nx + (Math.random() - 0.5) * jitter,
           ny + (Math.random() - 0.5) * jitter,
@@ -267,12 +296,12 @@
 
     const heartGeo = buildHeartGeometry();
     const heartMat = new THREE.PointsMaterial({
-      color: new THREE.Color(0xff8fe6),    // LEBIH CERAH
-      size: 0.18,
+      color: new THREE.Color(0xffa9ff),   // lebih terang
+      size: 0.2,
       transparent: true,
       opacity: 1,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
     const heart = new THREE.Points(heartGeo, heartMat);
     scene.add(heart);
@@ -290,7 +319,7 @@
     ringMesh.position.y = -4;
     scene.add(ringMesh);
 
-    // ===== SERPIHAN FOTO BERHAMBURAN =====
+    // ===== SERPIHAN FOTO BERHAMBURAN DEKAT LOVE =====
     const texLoader = new THREE.TextureLoader();
     const textures = [
       texLoader.load("syantik.jpg"),
@@ -302,10 +331,10 @@
     scene.add(paperGroup);
 
     function createPhotoPieces() {
-      const count = 80; // LEBIH BANYAK
+      const count = 70;
       for (let i = 0; i < count; i++) {
         const tex = textures[i % textures.length];
-        const geo = new THREE.PlaneGeometry(1.2, 1.6);
+        const geo = new THREE.PlaneGeometry(1.6, 2.2);
         const mat = new THREE.MeshBasicMaterial({
           map: tex,
           transparent: true,
@@ -314,9 +343,11 @@
 
         const mesh = new THREE.Mesh(geo, mat);
 
-        const radius = 7 + Math.random() * 6; // lebih jauh -> berhamburan
+        // radius dekat love biar kelihatan jelas
+        const radius = 5.5 + Math.random() * 2.0;
         const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI; // sekeliling, bukan cuma atas
+        // sabuk sekitar love, bukan seluruh bola
+        const phi = Math.random() * (Math.PI / 2) + Math.PI / 4;
 
         mesh.position.set(
           radius * Math.sin(phi) * Math.cos(theta),
@@ -330,7 +361,7 @@
           (Math.random() - 0.5) * Math.PI
         );
 
-        mesh.userData.floatSpeed = 0.002 + Math.random() * 0.004;
+        mesh.userData.floatSpeed = 0.003 + Math.random() * 0.004;
 
         paperGroup.add(mesh);
       }
@@ -363,9 +394,8 @@
       });
     }
 
-    // coba auto play saat load
     window.addEventListener("load", tryPlayMusic);
-    // kalau gagal, klik tombol masih bisa toggle
+
     toggleBtn.addEventListener("click", () => {
       if (!bgMusic) return;
       if (!isPlaying) {
@@ -384,11 +414,467 @@
 
       controls.update();
 
+      // hati
       heart.rotation.y = t * 0.3;
       heart.rotation.z = Math.sin(t * 0.3) * 0.1;
 
+      // ring
       ringMesh.rotation.z = t * 0.2;
 
+      // planet orbitring
+      planetGroup.children.forEach((pl) => {
+        pl.userData.orbitAngle += pl.userData.orbitSpeed;
+        const r = pl.userData.orbitRadius;
+        const ang = pl.userData.orbitAngle;
+        pl.position.x = Math.cos(ang) * r;
+        pl.position.z = Math.sin(ang) * r;
+      });
+
+      // serpihan foto
+      paperGroup.rotation.y = t * 0.35;
+      paperGroup.children.forEach((p, idx) => {
+        p.rotation.y += 0.01;
+        p.position.y += Math.sin(t * 2 + idx) * p.userData.floatSpeed;
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untuk Queensha</title>
+
+  <!-- STYLE SEMUA DI SINI -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins",
+        Arial, sans-serif;
+      color: #ffffff;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #15152a 0%, #02000a 55%, #000 100%);
+      position: relative;
+    }
+
+    #scene-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.45) 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 18px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      z-index: 3;
+      backdrop-filter: blur(10px);
+    }
+
+    #romantic-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .btn-audio {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-audio:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* teks ungkapan di-hide */
+    .center-text {
+      display: none;
+    }
+
+    .photo-stack {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .photo-stack img {
+      width: 70px;
+      height: 70px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+      transform-origin: center;
+    }
+
+    .photo-stack img:nth-child(1) {
+      transform: rotate(-10deg) translateY(4px);
+    }
+    .photo-stack img:nth-child(2) {
+      transform: rotate(3deg);
+    }
+    .photo-stack img:nth-child(3) {
+      transform: rotate(10deg) translateY(6px);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 0.8rem;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 3;
+    }
+
+    @media (max-width: 600px) {
+      .photo-stack img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+
+  <!-- IMPORTMAP THREE.JS -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+        "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="scene-container"></div>
+
+  <header class="top-bar">
+    <h1 id="romantic-title">UNTUK QUEENSHA</h1>
+    <button id="toggle-audio" class="btn-audio">
+      <span id="audio-icon">🔊</span>
+    </button>
+  </header>
+
+  <main class="center-text">
+    <h2>Hai, Queensha</h2>
+    <p>...</p>
+  </main>
+
+  <div class="photo-stack">
+    <img src="syantik.jpg" alt="Queensha 1" />
+    <img src="syantik2.jpg" alt="Queensha 2" />
+    <img src="syantik3.jpg" alt="Queensha 3" />
+  </div>
+
+  <footer class="footer">Created by Akhdan • for Queensha</footer>
+
+  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
+
+  <!-- SCRIPT 3D DALAM SATU FILE -->
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    const container = document.getElementById("scene-container");
+
+    // ===== SCENE, CAMERA, RENDERER =====
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 0, 14);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+
+    // ===== CONTROLS =====
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    controls.minDistance = 6;
+    controls.maxDistance = 22;
+
+    // ===== LIGHTING =====
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const point = new THREE.PointLight(0xffffff, 1.2);
+    point.position.set(7, 8, 10);
+    scene.add(point);
+
+    // ===== BINTANG =====
+    (function createStars() {
+      const starCount = 1000;
+      const pos = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+        const i3 = i * 3;
+        const r = 60 * Math.random() + 10;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+
+        pos[i3] = r * Math.sin(phi) * Math.cos(theta);
+        pos[i3 + 1] = r * Math.cos(phi);
+        pos[i3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({ size: 0.12, color: 0xffffff });
+      scene.add(new THREE.Points(geo, mat));
+    })();
+
+    // ===== PLANET-PANET TIPIS-TIPIS =====
+    const planetGroup = new THREE.Group();
+    scene.add(planetGroup);
+
+    function createPlanet(radius, distance, color, speed) {
+      const geo = new THREE.SphereGeometry(radius, 32, 32);
+      const mat = new THREE.MeshPhongMaterial({
+        color,
+        emissive: color,
+        emissiveIntensity: 0.25,
+        shininess: 60,
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+
+      const angle = Math.random() * Math.PI * 2;
+      mesh.position.set(
+        Math.cos(angle) * distance,
+        (Math.random() - 0.5) * 3,
+        Math.sin(angle) * distance
+      );
+      mesh.userData.orbitRadius = distance;
+      mesh.userData.orbitAngle = angle;
+      mesh.userData.orbitSpeed = speed;
+      planetGroup.add(mesh);
+    }
+
+    createPlanet(1.2, 18, 0x4b9dff, 0.03); // biru
+    createPlanet(0.9, 22, 0xffce6b, 0.02); // kuning
+    createPlanet(1.5, 26, 0xb96bff, 0.015); // ungu
+
+    // ===== HATI 3D PARTIKEL (LEBIH CERAH & PADAT) =====
+    function buildHeartGeometry() {
+      const pts = [];
+      const count = 3200;
+      for (let i = 0; i < count; i++) {
+        const t = Math.random() * Math.PI * 2;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y =
+          13 * Math.cos(t) -
+          5 * Math.cos(2 * t) -
+          2 * Math.cos(3 * t) -
+          Math.cos(4 * t);
+
+        const nx = x * 0.13;
+        const ny = y * 0.13;
+        const nz = (Math.random() - 0.5) * 2.0;
+
+        const jitter = 0.35;
+        pts.push(
+          nx + (Math.random() - 0.5) * jitter,
+          ny + (Math.random() - 0.5) * jitter,
+          nz
+        );
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+      return geo;
+    }
+
+    const heartGeo = buildHeartGeometry();
+    const heartMat = new THREE.PointsMaterial({
+      color: new THREE.Color(0xffa9ff),   // lebih terang
+      size: 0.2,
+      transparent: true,
+      opacity: 1,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    const heart = new THREE.Points(heartGeo, heartMat);
+    scene.add(heart);
+
+    // ===== RING DI BAWAH HATI =====
+    const ringGeo = new THREE.RingGeometry(4.3, 4.8, 90);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.7,
+      side: THREE.DoubleSide,
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    ringMesh.rotation.x = -Math.PI / 2;
+    ringMesh.position.y = -4;
+    scene.add(ringMesh);
+
+    // ===== SERPIHAN FOTO BERHAMBURAN DEKAT LOVE =====
+    const texLoader = new THREE.TextureLoader();
+    const textures = [
+      texLoader.load("syantik.jpg"),
+      texLoader.load("syantik2.jpg"),
+      texLoader.load("syantik3.jpg"),
+    ];
+
+    const paperGroup = new THREE.Group();
+    scene.add(paperGroup);
+
+    function createPhotoPieces() {
+      const count = 70;
+      for (let i = 0; i < count; i++) {
+        const tex = textures[i % textures.length];
+        const geo = new THREE.PlaneGeometry(1.6, 2.2);
+        const mat = new THREE.MeshBasicMaterial({
+          map: tex,
+          transparent: true,
+          side: THREE.DoubleSide,
+        });
+
+        const mesh = new THREE.Mesh(geo, mat);
+
+        // radius dekat love biar kelihatan jelas
+        const radius = 5.5 + Math.random() * 2.0;
+        const theta = Math.random() * Math.PI * 2;
+        // sabuk sekitar love, bukan seluruh bola
+        const phi = Math.random() * (Math.PI / 2) + Math.PI / 4;
+
+        mesh.position.set(
+          radius * Math.sin(phi) * Math.cos(theta),
+          radius * Math.cos(phi),
+          radius * Math.sin(phi) * Math.sin(theta)
+        );
+
+        mesh.rotation.set(
+          (Math.random() - 0.5) * Math.PI,
+          (Math.random() - 0.5) * Math.PI,
+          (Math.random() - 0.5) * Math.PI
+        );
+
+        mesh.userData.floatSpeed = 0.003 + Math.random() * 0.004;
+
+        paperGroup.add(mesh);
+      }
+    }
+    createPhotoPieces();
+
+    // ===== RESIZE =====
+    window.addEventListener("resize", () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    // ===== AUDIO (AUTO PLAY) =====
+    const bgMusic = document.getElementById("bg-music");
+    const toggleBtn = document.getElementById("toggle-audio");
+    const iconSpan = document.getElementById("audio-icon");
+    let isPlaying = false;
+
+    function tryPlayMusic() {
+      if (!bgMusic || isPlaying) return;
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        iconSpan.textContent = "🔊";
+      }).catch(() => {
+        // kalau ke-block browser, nanti user bisa klik tombol
+        iconSpan.textContent = "🔇";
+      });
+    }
+
+    window.addEventListener("load", tryPlayMusic);
+
+    toggleBtn.addEventListener("click", () => {
+      if (!bgMusic) return;
+      if (!isPlaying) {
+        tryPlayMusic();
+      } else {
+        bgMusic.pause();
+        isPlaying = false;
+        iconSpan.textContent = "🔇";
+      }
+    });
+
+    // ===== LOOP =====
+    function animate(time) {
+      requestAnimationFrame(animate);
+      const t = time * 0.001;
+
+      controls.update();
+
+      // hati
+      heart.rotation.y = t * 0.3;
+      heart.rotation.z = Math.sin(t * 0.3) * 0.1;
+
+      // ring
+      ringMesh.rotation.z = t * 0.2;
+
+      // planet orbitring
+      planetGroup.children.forEach((pl) => {
+        pl.userData.orbitAngle += pl.userData.orbitSpeed;
+        const r = pl.userData.orbitRadius;
+        const ang = pl.userData.orbitAngle;
+        pl.position.x = Math.cos(ang) * r;
+        pl.position.z = Math.sin(ang) * r;
+      });
+
+      // serpihan foto
       paperGroup.rotation.y = t * 0.35;
       paperGroup.children.forEach((p, idx) => {
         p.rotation.y += 0.01;
