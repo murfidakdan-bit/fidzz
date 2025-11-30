@@ -4,30 +4,28 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins",
+    Arial, sans-serif;
   color: #ffffff;
 }
 
-/* background gradient + canvas */
+/* background + tempat 3D */
 body {
-  background: radial-gradient(circle at top, #1a1030 0%, #02010b 60%, #000000 100%);
+  background: radial-gradient(circle at top, #15152a 0%, #02000a 55%, #000 100%);
   position: relative;
 }
 
-/* canvas hati partikel */
-#heart-canvas {
+#scene-container {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 
-/* overlay gelap tipis biar teks kebaca */
+/* overlay gelap tipis */
 body::after {
   content: "";
   position: fixed;
@@ -46,15 +44,15 @@ body::after {
   align-items: center;
   gap: 12px;
   padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   z-index: 10;
   backdrop-filter: blur(10px);
 }
 
 #romantic-title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -64,8 +62,8 @@ body::after {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.5);
-  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   display: flex;
   align-items: center;
@@ -75,7 +73,7 @@ body::after {
 }
 
 .btn-audio:hover {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* teks tengah */
@@ -87,8 +85,8 @@ body::after {
   max-width: 480px;
   text-align: center;
   padding: 0 16px;
-  z-index: 5;
-  text-shadow: 0 0 20px rgba(0,0,0,0.9);
+  z-index: 6;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
 }
 
 .center-text h2 {
@@ -100,10 +98,10 @@ body::after {
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 0.35rem;
-  opacity: 0.95;
+  opacity: 0.96;
 }
 
-/* foto stack di tengah bawah */
+/* foto stack di bawah (opsional) */
 .photo-stack {
   position: fixed;
   bottom: 80px;
@@ -111,7 +109,7 @@ body::after {
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
-  z-index: 6;
+  z-index: 7;
 }
 
 .photo-stack img {
@@ -119,19 +117,8 @@ body::after {
   height: 70px;
   border-radius: 10px;
   object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.9);
-  box-shadow: 0 0 18px rgba(0,0,0,0.9);
-  transform-origin: center;
-}
-
-.photo-stack img:nth-child(1) {
-  transform: rotate(-10deg) translateY(4px);
-}
-.photo-stack img:nth-child(2) {
-  transform: rotate(3deg);
-}
-.photo-stack img:nth-child(3) {
-  transform: rotate(10deg) translateY(6px);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
 }
 
 /* footer */
@@ -140,11 +127,11 @@ body::after {
   bottom: 16px;
   right: 16px;
   font-size: 0.8rem;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.3);
-  z-index: 6;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  z-index: 7;
 }
 
 /* mobile */
@@ -161,4 +148,4 @@ body::after {
     width: 60px;
     height: 60px;
   }
-}
+  }
