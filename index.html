@@ -4,9 +4,174 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Untuk Queensha</title>
-  <link rel="stylesheet" href="style.css" />
 
-  <!-- Importmap buat Three.js (3D) -->
+  <!-- STYLE SEMUA DI SINI -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins",
+        Arial, sans-serif;
+      color: #ffffff;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #15152a 0%, #02000a 55%, #000 100%);
+      position: relative;
+    }
+
+    /* TEMPAT CANVAS 3D */
+    #scene-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* overlay gelap dikit biar teks kebaca */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.45) 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* top bar */
+    .top-bar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 18px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      z-index: 3;
+      backdrop-filter: blur(10px);
+    }
+
+    #romantic-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .btn-audio {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-audio:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* teks tengah */
+    .center-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 480px;
+      text-align: center;
+      padding: 0 16px;
+      z-index: 3;
+      text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .center-text h2 {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .center-text p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 0.35rem;
+      opacity: 0.96;
+    }
+
+    /* foto stack bawah */
+    .photo-stack {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .photo-stack img {
+      width: 70px;
+      height: 70px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+      transform-origin: center;
+    }
+
+    .photo-stack img:nth-child(1) {
+      transform: rotate(-10deg) translateY(4px);
+    }
+    .photo-stack img:nth-child(2) {
+      transform: rotate(3deg);
+    }
+    .photo-stack img:nth-child(3) {
+      transform: rotate(10deg) translateY(6px);
+    }
+
+    /* footer */
+    .footer {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 0.8rem;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 3;
+    }
+
+    @media (max-width: 600px) {
+      .center-text h2 {
+        font-size: 1.6rem;
+      }
+
+      .center-text p {
+        font-size: 0.85rem;
+      }
+
+      .photo-stack img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+
+  <!-- IMPORTMAP THREE.JS -->
   <script type="importmap">
     {
       "imports": {
@@ -16,12 +181,14 @@
     }
   </script>
 </head>
+
 <body>
-  <!-- Tempat canvas 3D -->
+  <!-- CANVAS 3D -->
   <div id="scene-container"></div>
 
+  <!-- UI TEKS -->
   <header class="top-bar">
-    <h1 id="romantic-title">Untuk Queensha</h1>
+    <h1 id="romantic-title">UNTUK QUEENSHA</h1>
     <button id="toggle-audio" class="btn-audio">
       <span id="audio-icon">🔇</span>
     </button>
@@ -29,33 +196,232 @@
 
   <main class="center-text">
     <h2>Hai, Queensha</h2>
+    <p>Gue nggak jago ngomong manis, jadi gue bikin ini aja.</p>
+    <p>Dari semua orang yang lewat belakangan ini, yang paling sering kepikiran justru lu.</p>
     <p>
-      Gue nggak jago ngomong manis, jadi gue bikin ini aja.
-    </p>
-    <p>
-      Dari semua orang yang lewat belakangan ini, yang paling sering kepikiran justru lu.
-    </p>
-    <p>
-      Nggak ada tuntutan apa-apa, nggak ada harus dibalas.
-      Gue cuma pengen lu tau, kalau buat gue, lu itu bukan orang biasa.
+      Nggak ada tuntutan apa-apa, nggak ada harus dibalas. Gue cuma pengen lu tau,
+      kalau buat gue, lu itu bukan orang biasa.
     </p>
   </main>
 
-  <!-- foto dia (overlay, bebas mau lu pakai atau nggak) -->
   <div class="photo-stack">
-    <img src="syantik.jpg"  alt="Queensha 1" />
+    <img src="syantik.jpg" alt="Queensha 1" />
     <img src="syantik2.jpg" alt="Queensha 2" />
     <img src="syantik3.jpg" alt="Queensha 3" />
   </div>
 
-  <footer class="footer">
-    Created by Akhdan • for Queensha
-  </footer>
+  <footer class="footer">Created by Akhdan • for Queensha</footer>
 
-  <!-- musik lokal -->
+  <!-- MUSIK -->
   <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
 
-  <!-- Script 3D (HARUS type="module") -->
-  <script type="module" src="script.js"></script>
+  <!-- SCRIPT 3D DALAM SATU FILE -->
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    const container = document.getElementById("scene-container");
+
+    // ===== SCENE, CAMERA, RENDERER =====
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 0, 14);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+
+    // ===== CONTROLS (BISA DIPUTER & ZOOM) =====
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    controls.minDistance = 6;
+    controls.maxDistance = 22;
+
+    // ===== LIGHTING =====
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const point = new THREE.PointLight(0xffffff, 1.2);
+    point.position.set(7, 8, 10);
+    scene.add(point);
+
+    // ===== BINTANG =====
+    (function createStars() {
+      const starCount = 1000;
+      const pos = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+        const i3 = i * 3;
+        const r = 60 * Math.random() + 10;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+
+        pos[i3] = r * Math.sin(phi) * Math.cos(theta);
+        pos[i3 + 1] = r * Math.cos(phi);
+        pos[i3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({ size: 0.12, color: 0xffffff });
+      scene.add(new THREE.Points(geo, mat));
+    })();
+
+    // ===== HATI 3D PARTIKEL =====
+    function buildHeartGeometry() {
+      const pts = [];
+      const count = 2500;
+      for (let i = 0; i < count; i++) {
+        const t = Math.random() * Math.PI * 2;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y =
+          13 * Math.cos(t) -
+          5 * Math.cos(2 * t) -
+          2 * Math.cos(3 * t) -
+          Math.cos(4 * t);
+
+        const nx = x * 0.12;
+        const ny = y * 0.12;
+        const nz = (Math.random() - 0.5) * 1.8;
+
+        const jitter = 0.4;
+        pts.push(
+          nx + (Math.random() - 0.5) * jitter,
+          ny + (Math.random() - 0.5) * jitter,
+          nz
+        );
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+      return geo;
+    }
+
+    const heartGeo = buildHeartGeometry();
+    const heartMat = new THREE.PointsMaterial({
+      color: new THREE.Color(0xff4b8b),
+      size: 0.14,
+    });
+    const heart = new THREE.Points(heartGeo, heartMat);
+    scene.add(heart);
+
+    // ===== RING DI BAWAH HATI =====
+    const ringGeo = new THREE.RingGeometry(4.3, 4.7, 90);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.6,
+      side: THREE.DoubleSide,
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    ringMesh.rotation.x = -Math.PI / 2;
+    ringMesh.position.y = -4;
+    scene.add(ringMesh);
+
+    // ===== SERPIHAN FOTO QUEENSHA =====
+    const texLoader = new THREE.TextureLoader();
+    const textures = [
+      texLoader.load("syantik.jpg"),
+      texLoader.load("syantik2.jpg"),
+      texLoader.load("syantik3.jpg"),
+    ];
+
+    const paperGroup = new THREE.Group();
+    scene.add(paperGroup);
+
+    function createPhotoPieces() {
+      const count = 40;
+      for (let i = 0; i < count; i++) {
+        const tex = textures[i % textures.length];
+        const geo = new THREE.PlaneGeometry(1.0, 1.4);
+        const mat = new THREE.MeshBasicMaterial({
+          map: tex,
+          transparent: true,
+          side: THREE.DoubleSide,
+        });
+
+        const mesh = new THREE.Mesh(geo, mat);
+
+        const radius = 7 + Math.random() * 2.5;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * (Math.PI / 2) + Math.PI / 4;
+
+        mesh.position.set(
+          radius * Math.sin(phi) * Math.cos(theta),
+          radius * Math.cos(phi),
+          radius * Math.sin(phi) * Math.sin(theta)
+        );
+
+        mesh.rotation.set(
+          (Math.random() - 0.5) * Math.PI,
+          (Math.random() - 0.5) * Math.PI,
+          (Math.random() - 0.5) * Math.PI
+        );
+
+        mesh.userData.floatSpeed = 0.002 + Math.random() * 0.004;
+
+        paperGroup.add(mesh);
+      }
+    }
+    createPhotoPieces();
+
+    // ===== RESIZE =====
+    window.addEventListener("resize", () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    // ===== AUDIO =====
+    const bgMusic = document.getElementById("bg-music");
+    const toggleBtn = document.getElementById("toggle-audio");
+    const iconSpan = document.getElementById("audio-icon");
+    let isPlaying = false;
+
+    toggleBtn.addEventListener("click", () => {
+      if (!bgMusic) return;
+      if (!isPlaying) {
+        bgMusic.play().catch(() => {});
+        isPlaying = true;
+        iconSpan.textContent = "🔊";
+      } else {
+        bgMusic.pause();
+        isPlaying = false;
+        iconSpan.textContent = "🔇";
+      }
+    });
+
+    // ===== LOOP =====
+    function animate(time) {
+      requestAnimationFrame(animate);
+      const t = time * 0.001;
+
+      controls.update();
+
+      heart.rotation.y = t * 0.3;
+      heart.rotation.z = Math.sin(t * 0.3) * 0.1;
+
+      ringMesh.rotation.z = t * 0.2;
+
+      paperGroup.rotation.y = t * 0.35;
+      paperGroup.children.forEach((p, idx) => {
+        p.rotation.y += 0.01;
+        p.position.y += Math.sin(t * 2 + idx) * p.userData.floatSpeed;
+      });
+
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
 </body>
 </html>
