@@ -1,109 +1,420 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Untukmu</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halaman Kecil Untuk Queensha</title>
+
+  <!-- FONT GEMOY -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+
   <style>
-    body {
+    * {
       margin: 0;
-      background: #f5efd7;
-      font-family: 'Courier New', monospace;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Baloo 2", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #fef3c7 0, #fecaca 45%, #111827 100%);
+      color: #111827;
       overflow: hidden;
     }
 
-    .page1, .page2, .page3 {
-      width: 100vw;
-      height: 100vh;
+    /* ====== HALAMAN (PAGE) ====== */
+    .page {
+      position: fixed;
+      inset: 0;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: opacity 1s ease-out, transform 1s ease-out;
-    }
-
-    .page1 {
-      background: url('https://i.imgur.com/6b7pM5i.jpg');
-      background-size: cover;
-      color: white;
-    }
-
-    .page1 h1 {
-      font-size: 35px;
-      margin-bottom: 15px;
-    }
-
-    .choice-btn {
-      padding: 10px 25px;
-      border: none;
-      background: #fff;
-      border-radius: 12px;
-      font-size: 18px;
-      margin: 10px;
-      cursor: pointer;
-    }
-
-    /* PAGE 2 SCRAPBOOK */
-    .page2 {
+      justify-content: center;
+      padding: 20px 14px;
       opacity: 0;
-      transform: scale(0.8);
-      background: #fffaf0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+      z-index: 1;
     }
 
-    .scrap-container {
-      width: 90%;
-      max-width: 600px;
-      padding: 20px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    .page.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
     }
 
-    .scrap-img {
+    /* ====== PAGE 1 – OPENING ====== */
+    .intro-card {
+      background: rgba(15, 23, 42, 0.9);
+      color: #f9fafb;
+      border-radius: 24px;
+      padding: 26px 22px 26px;
+      max-width: 360px;
       width: 100%;
-      border-radius: 15px;
-      margin-top: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* PAGE 3 (PORTAL & FOTO) */
-    .page3 {
-      opacity: 0;
-      transform: scale(0.6);
-      background: #000;
-      color: white;
+    .intro-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top, rgba(252, 211, 77, 0.35) 0, transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
     }
 
-    /* ANIMASI PORTAL GINSHIN */
-    @keyframes portal-open {
-      0% { transform: scale(0.2); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    .intro-inner {
+      position: relative;
+      z-index: 1;
     }
 
-    .portal {
-      animation: portal-open 2s ease-out forwards;
-      width: 80vw;
-      max-width: 450px;
-      border-radius: 20px;
-      box-shadow: 0 0 40px white;
+    .intro-title {
+      font-family: "Shadows Into Light", cursive;
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
-    .text-end {
-      margin-top: 15px;
-      font-size: 18px;
+    .intro-sub {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 18px;
     }
 
-    /* =========================
-       WINDAH GOYANG KIRI-KANAN
-    ===========================*/
-    .windah-wrapper {
+    .intro-question {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .intro-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-pill {
+      padding: 9px 22px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-pill:active {
+      transform: translateY(2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      filter: brightness(0.95);
+    }
+
+    #btn-yes {
+      background: #4ade80;
+      color: #064e3b;
+    }
+
+    #btn-no {
+      background: #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .intro-note {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    /* ====== PAGE 2 – SCRAPBOOK ====== */
+    .scrap-wrapper {
+      max-width: 420px;
+      width: 100%;
+      background: #fff7ed;
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+      padding: 18px 16px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scrap-paper {
+      position: absolute;
+      inset: 16px 12px 16px 12px;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(254, 243, 199, 0.85),
+        rgba(254, 243, 199, 0.85) 22px,
+        rgba(252, 211, 77, 0.2) 22px,
+        rgba(252, 211, 77, 0.2) 23px
+      );
+      border-radius: 16px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .scrap-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .scrap-title {
+      font-family: "Shadows Into Light", cursive;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .scrap-text {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .scrap-photo-main {
+      width: 100%;
+      border-radius: 16px;
+      margin: 6px 0 12px;
+      transform: rotate(-2deg);
+      box-shadow: 0 12px 18px rgba(0, 0, 0, 0.25);
+      background: #111827;
+      padding: 6px;
+    }
+
+    .scrap-photo-main img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .scrap-photo-small-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .scrap-photo-small {
+      flex: 1;
+      background: #111827;
+      padding: 4px;
+      border-radius: 12px;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.25);
+      transform: rotate(2deg);
+    }
+
+    .scrap-photo-small img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .scrap-bottom {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
+
+    #btn-next-core {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    /* ====== PAGE 3 – PORTAL + FOTO ====== */
+    .photo-wrapper {
+      max-width: 420px;
+      width: 100%;
+      background: #020617;
+      border-radius: 22px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+      padding: 20px 16px 22px;
+      position: relative;
+      overflow: hidden;
+      color: #e5e7eb;
+    }
+
+    .dream-header {
+      font-family: "Shadows Into Light", cursive;
+      font-size: 26px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .frame-paper {
+      margin-top: 6px;
+      background: #fefce8;
+      border-radius: 16px;
+      padding: 14px 10px 16px;
+      position: relative;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .frame-paper::before {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 18px;
+      background: rgba(255, 255, 255, 0.9);
+      top: -8px;
+      left: 20%;
+      border-radius: 6px;
+      transform: rotate(-7deg);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .frame-inner {
+      background: #020617;
+      border-radius: 12px;
+      padding: 6px;
+      overflow: hidden;
+    }
+
+    .frame-inner img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      object-fit: cover;
+      max-height: 260px;
+    }
+
+    .closing-text {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .photo-bottom {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #btn-close-all {
+      background: #f97316;
+      color: #451a03;
+    }
+
+    /* ====== PORTAL ala GENSHIN ====== */
+    .door-overlay {
       position: fixed;
       inset: 0;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 9;
+    }
+
+    .door-overlay.active {
+      opacity: 1;
+    }
+
+    .door-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #ffffff 0, #e5e7eb 35%, #020617 100%);
+      opacity: 0.8;
+    }
+
+    .door-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60vmin;
+      height: 60vmin;
+      transform: translate(-50%, -50%) scale(0.1);
+      border-radius: 999px;
+      background: radial-gradient(circle at center,
+        #ffffff 0,
+        #fefce8 30%,
+        #fde68a 55%,
+        rgba(253,224,71,0.1) 80%,
+        transparent 100%
+      );
+      box-shadow: 0 0 60px rgba(255, 255, 255, 0.9);
+      opacity: 0;
+    }
+
+    .door-slit {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      transform: translateX(-50%) scaleX(0);
+      background: linear-gradient(
+        180deg,
+        #ffffff,
+        #fef9c3,
+        #f97316,
+        #fef9c3,
+        #ffffff
+      );
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
+      opacity: 0;
+    }
+
+    .door-overlay.open .door-glow {
+      animation: genshinGlow 0.8s ease-out forwards;
+    }
+
+    .door-overlay.open .door-slit {
+      animation: genshinSlit 0.8s ease-out forwards;
+    }
+
+    @keyframes genshinGlow {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.1);
+      }
+      40% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+      100% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+    }
+
+    @keyframes genshinSlit {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) scaleX(0);
+      }
+      30% {
+        opacity: 1;
+        transform: translateX(-50%) scaleX(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) scaleX(1.4);
+      }
+    }
+
+    /* ====== FADE HITAM (AKHIR) ====== */
+    .fade-black {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.8s ease;
+      z-index: 30;
+    }
+
+    .fade-black.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ====== STIKER WINDAH ====== */
+    .windah-wrapper {
+      position: fixed;
+      inset: 0;
+      pointer-events: none; /* PENTING: biar gak nutup tombol */
       z-index: 5;
     }
 
@@ -112,7 +423,7 @@
       display: block;
       max-width: 110px;
       width: 26vw;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
       transform-origin: center bottom;
       animation: windah-sway 3.5s ease-in-out infinite;
     }
@@ -130,63 +441,172 @@
       100% { transform: translateX(-4px) rotate(-3deg); }
     }
 
+    @media (max-width: 360px) {
+      .intro-card, .scrap-wrapper, .photo-wrapper {
+        padding-inline: 14px;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- MUSIK -->
+  <!-- ganti MUSIKK.mp3 kalau nama file lagunya beda -->
+  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
+
   <!-- PAGE 1 -->
-  <div class="page1" id="page1">
-    <h1>Hai Queensha 🌟</h1>
-    <p>Ini halaman kecil, khusus buat kamu. Lanjut gak?</p>
-    <button class="choice-btn" onclick="goToPage2()">Lanjut</button>
-    <button class="choice-btn" onclick="window.close()">Engga</button>
-  </div>
+  <section id="page1" class="page active">
+    <div class="intro-card">
+      <div class="intro-inner">
+        <h1 class="intro-title">Hai Queensha ✨</h1>
+        <p class="intro-sub">
+          Ini halaman kecil yang cuma aku siapin buat kamu.
+        </p>
+        <p class="intro-question">Mau dilanjut?</p>
+
+        <div class="intro-buttons">
+          <button id="btn-yes" class="btn-pill">Lanjut</button>
+          <button id="btn-no" class="btn-pill">Engga</button>
+        </div>
+
+        <p class="intro-note">
+          kalau kamu klik “lanjut”, halaman bakal pelan-pelan berubah :)
+        </p>
+      </div>
+    </div>
+  </section>
 
   <!-- PAGE 2 -->
-  <div class="page2" id="page2">
-    <div class="scrap-container">
-      <h2>Kalau ini mimpi, jangan bangunin dulu 😊</h2>
-      <img src="syantik2.png" class="scrap-img">
-      <p>Seneng bisa kenal kamu — meskipun awalnya cuma biasa aja.</p>
-      <button class="choice-btn" onclick="goToPage3()">Lanjut ➜</button>
+  <section id="page2" class="page">
+    <div class="scrap-wrapper">
+      <div class="scrap-paper"></div>
+      <div class="scrap-inner">
+        <h2 class="scrap-title">Halaman inti 💌</h2>
+        <p class="scrap-text">
+          aku nggak jago ngomong langsung, jadi aku taro di sini aja.
+          mungkin buat orang lain ini cuma halaman random di internet,
+          tapi buat aku ini cara paling gampang buat bilang kalau kamu
+          itu spesial. hal-hal kecil dari kamu, entah kenapa selalu
+          ke-save di kepala aku.
+        </p>
+
+        <div class="scrap-photo-main">
+          <img src="syantik.png" alt="Foto Queensha 1">
+        </div>
+
+        <div class="scrap-photo-small-row">
+          <div class="scrap-photo-small">
+            <img src="syantik2.png" alt="Foto Queensha 2">
+          </div>
+        </div>
+
+        <p class="scrap-text">
+          kalau suatu hari kamu lagi capek atau ngerasa sendirian,
+          semoga kamu inget kalau ada seseorang yang seneng banget
+          lihat kamu bahagia — dan iya, itu aku.
+        </p>
+
+        <div class="scrap-bottom">
+          <button id="btn-next-core" class="btn-pill">Lanjut ➜</button>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section id="page3" class="page">
+    <div class="photo-wrapper">
+      <h2 class="dream-header">Bagian favorit di halaman ini ✨</h2>
+
+      <div class="frame-paper">
+        <div class="frame-inner">
+          <img src="syantik3.jpg" alt="Foto Queensha 3">
+        </div>
+      </div>
+
+      <p class="closing-text">
+        kalau nanti kamu nanya, “ini beneran?” — iya, ini beneran.  
+        aku cuma berharap kamu selalu ketemu alasan buat senyum, termasuk dari halaman kecil ini.
+      </p>
+
+      <div class="photo-bottom">
+        <button id="btn-close-all" class="btn-pill">Tutup halaman</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAL TRANSITION -->
+  <div id="door" class="door-overlay">
+    <div class="door-bg"></div>
+    <div class="door-glow"></div>
+    <div class="door-slit"></div>
   </div>
 
-  <!-- PAGE 3 (PORTAL GINSHIN) -->
-  <div class="page3" id="page3">
-    <img src="syantik3.jpg" class="portal">
-    <p class="text-end">Ditulis pelan-pelan... tapi serius 🫶</p>
-  </div>
+  <!-- FADE HITAM AKHIR -->
+  <div id="fadeBlack" class="fade-black"></div>
 
-  <!-- WINDAH STICKERS -->
+  <!-- STIKER WINDAH -->
   <div class="windah-wrapper">
-    <img src="windah1(stroberi).png" class="windah windah-top-left">
-    <img src="windahjoget.png" class="windah windah-top-right">
-    <img src="windahmetal.png" class="windah windah-bottom-left">
-    <img src="windahmatahari.png" class="windah windah-bottom-right">
+    <img src="windah1(stroberi).png" alt="Windah stroberi" class="windah windah-top-left">
+    <img src="windahjoget.png" alt="Windah joget" class="windah windah-top-right">
+    <img src="windahmetal.png" alt="Windah metal" class="windah windah-bottom-left">
+    <img src="windahmatahari.png" alt="Windah matahari" class="windah windah-bottom-right">
   </div>
-
-  <!-- MUSIK -->
-  <audio id="bgmusic" src="lagu.mp3" autoplay loop></audio>
 
   <script>
-    function goToPage2() {
-      document.getElementById('page1').style.opacity = "0";
-      setTimeout(() => {
-        document.getElementById('page1').style.display = 'none';
-        document.getElementById('page2').style.opacity = "1";
-      }, 1000);
-    }
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    const page3 = document.getElementById("page3");
+    const btnYes = document.getElementById("btn-yes");
+    const btnNo = document.getElementById("btn-no");
+    const btnNextCore = document.getElementById("btn-next-core");
+    const btnCloseAll = document.getElementById("btn-close-all");
+    const door = document.getElementById("door");
+    const fadeBlack = document.getElementById("fadeBlack");
+    const music = document.getElementById("bg-music");
 
-    function goToPage3() {
-      document.getElementById('page2').style.opacity = "0";
+    // mulai musik setelah klik "Lanjut" (biar aman di HP)
+    btnYes.addEventListener("click", () => {
+      page1.classList.remove("active");
+      page2.classList.add("active");
+      music.play().catch(() => {});
+    });
+
+    btnNo.addEventListener("click", () => {
+      // keluar halus: bisa diarahkan ke google / blank
+      window.location.href = "https://google.com";
+    });
+
+    btnNextCore.addEventListener("click", () => {
+      // portal effect
+      door.classList.add("active");
+      door.classList.add("open");
+
       setTimeout(() => {
-        document.getElementById('page2').style.display = 'none';
-        document.getElementById('page3').style.opacity = "1";
-        document.getElementById('page3').style.transform = "scale(1)";
-      }, 1000);
-    }
+        door.classList.remove("active");
+        door.classList.remove("open");
+        page2.classList.remove("active");
+        page3.classList.add("active");
+      }, 900);
+    });
+
+    btnCloseAll.addEventListener("click", () => {
+      fadeBlack.classList.add("show");
+      let vol = music.volume;
+      const step = 0.05;
+
+      const fadeInterval = setInterval(() => {
+        vol -= step;
+        if (vol <= 0) {
+          vol = 0;
+          music.volume = 0;
+          music.pause();
+          clearInterval(fadeInterval);
+        } else {
+          music.volume = vol;
+        }
+      }, 200);
+    });
   </script>
-
 </body>
-</html>
+  </html>
