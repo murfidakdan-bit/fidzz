@@ -1,203 +1,50 @@
-// script.js
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untuk Queensha</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="heart-canvas"></canvas>
 
-// ===== SCENE, CAMERA, RENDERER =====
-const scene = new THREE.Scene();
+  <header class="top-bar">
+    <h1 id="romantic-title">Untuk Queensha</h1>
+    <button id="toggle-audio" class="btn-audio">
+      <span id="audio-icon">🔇</span>
+    </button>
+  </header>
 
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
-camera.position.set(0, 0, 12);
+  <main class="center-text">
+    <h2>Hai, Queensha</h2>
+    <p>
+      Gue nggak jago ngomong manis, jadi gue bikin ini aja.
+    </p>
+    <p>
+      Intinya, dari semua orang yang lewat di hidup gue akhir-akhir ini,
+      lu yang paling sering kepikiran.
+    </p>
+    <p>
+      Nggak ada tuntutan apa-apa, nggak ada harus dibalas.
+      Gue cuma pengen lu tau kalau buat gue, lu itu bukan orang biasa.
+    </p>
+  </main>
 
-const renderer = new THREE.WebGLRenderer({
-  antialias: true,
-  alpha: true, // transparan biar gif.gif keliatan
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x000000, 0);
-document.getElementById("container").appendChild(renderer.domElement);
+  <!-- foto dia di tengah (opsional bisa lu ganti mana yg dipakai) -->
+  <div class="photo-stack">
+    <img src="syantik.jpg"  alt="Queensha 1" />
+    <img src="syantik2.jpg" alt="Queensha 2" />
+    <img src="syantik3.jpg" alt="Queensha 3" />
+  </div>
 
-// ===== CONTROLS (BIAR BISA DIPUTER & ZOOM) =====
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.08;
-controls.enablePan = false;
-controls.minDistance = 5;
-controls.maxDistance = 20;
+  <footer class="footer">
+    Created by Akhdan • for Queensha
+  </footer>
 
-// ===== LIGHTING =====
-const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-scene.add(ambient);
+  <!-- musik lokal -->
+  <audio id="bg-music" src="MUSIKK.mp3" loop></audio>
 
-const point = new THREE.PointLight(0xffffff, 1.3);
-point.position.set(5, 6, 8);
-scene.add(point);
-
-// ===== PLANET UTAMA =====
-const planetGeo = new THREE.SphereGeometry(3, 64, 64);
-
-// bikin material agak “galaxy” simple
-const planetMat = new THREE.MeshPhongMaterial({
-  color: new THREE.Color(0xff8df3),
-  emissive: new THREE.Color(0x441133),
-  shininess: 80,
-  specular: new THREE.Color(0xfff6ff),
-});
-
-const planet = new THREE.Mesh(planetGeo, planetMat);
-scene.add(planet);
-
-// ===== RINGS MENGELILINGI PLANET =====
-const ringMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
-});
-
-function createRing(radius, tube, tiltX, tiltZ, speed) {
-  const ringGeo = new THREE.TorusGeometry(radius, tube, 16, 220);
-  const ringMesh = new THREE.Mesh(ringGeo, ringMaterial.clone());
-  ringMesh.rotation.x = tiltX;
-  ringMesh.rotation.z = tiltZ;
-  ringMesh.userData.speed = speed;
-  scene.add(ringMesh);
-  return ringMesh;
-}
-
-const rings = [
-  createRing(5.2, 0.08, Math.PI / 3, 0.0, 0.25),
-  createRing(5.2, 0.08, -Math.PI / 3, Math.PI / 2, -0.18),
-  createRing(5.2, 0.08, 0.0, Math.PI / 4, 0.15),
-];
-
-// ===== STARFIELD =====
-function createStars() {
-  const starCount = 900;
-  const positions = new Float32Array(starCount * 3);
-
-  for (let i = 0; i < starCount; i++) {
-    const i3 = i * 3;
-    const r = 40 * Math.random() + 10;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.random() * Math.PI;
-
-    positions[i3 + 0] = r * Math.sin(phi) * Math.cos(theta);
-    positions[i3 + 1] = r * Math.cos(phi);
-    positions[i3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-  }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.07,
-    color: 0xffffff,
-  });
-
-  const points = new THREE.Points(geo, mat);
-  scene.add(points);
-}
-
-createStars();
-
-// ===== SERPIHAN “KERTAS” FOTO QUEENSHA (ULTI KONAN VERSION SOFT) =====
-
-const textureLoader = new THREE.TextureLoader();
-
-// foto yang lu punya di repo
-const paperTextures = [
-  textureLoader.load("syantik.jpg"),
-  textureLoader.load("syantik2.jpg"),
-  textureLoader.load("syantik3.jpg"),
-];
-
-const paperGroup = new THREE.Group();
-scene.add(paperGroup);
-
-const paperPieces = [];
-
-function createPaperPieces() {
-  const pieceCount = 45; // jumlah serpihan
-
-  for (let i = 0; i < pieceCount; i++) {
-    const tex = paperTextures[i % paperTextures.length];
-
-    // ukuran “kertas”
-    const geo = new THREE.PlaneGeometry(0.9, 1.2);
-    const mat = new THREE.MeshBasicMaterial({
-      map: tex,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
-
-    const mesh = new THREE.Mesh(geo, mat);
-
-    // posisi acak di “cangkang” sekitar planet
-    const radius = 6 + Math.random() * 3; // jarak dari pusat
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.random() * Math.PI;
-
-    mesh.position.set(
-      radius * Math.sin(phi) * Math.cos(theta),
-      radius * Math.cos(phi) * 0.6,
-      radius * Math.sin(phi) * Math.sin(theta)
-    );
-
-    mesh.rotation.set(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-      Math.random() * Math.PI
-    );
-
-    // speed kecil buat gerakan masing-masing
-    mesh.userData.floatSpeed = 0.002 + Math.random() * 0.004;
-
-    paperGroup.add(mesh);
-    paperPieces.push(mesh);
-  }
-}
-
-createPaperPieces();
-
-// ===== RESIZE HANDLER =====
-window.addEventListener("resize", () => {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
-});
-
-// ===== ANIMATION LOOP =====
-function animate() {
-  requestAnimationFrame(animate);
-
-  const t = performance.now() * 0.001;
-
-  controls.update();
-
-  // planet muter pelan
-  planet.rotation.y += 0.0025;
-  planet.rotation.x += 0.0007;
-
-  // rings muter
-  rings.forEach((ring) => {
-    ring.rotation.y += ring.userData.speed * 0.01;
-  });
-
-  // group serpihan muter keliling planet
-  paperGroup.rotation.y = t * 0.4;
-
-  // masing-masing kertas goyang dikit
-  paperPieces.forEach((p, idx) => {
-    p.rotation.y += 0.012;
-    p.position.y += Math.sin(t * 2.5 + idx) * p.userData.floatSpeed;
-  });
-
-  renderer.render(scene, camera);
-}
-
-animate();
+  <script src="script.js"></script>
+</body>
+</html>
